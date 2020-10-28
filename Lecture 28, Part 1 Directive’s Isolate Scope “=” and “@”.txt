@@ -1,0 +1,105 @@
+[MUSIC] Previously we spoke about the fact
+that without any additional configuration our directive is
+functioning with the scope of its parent. In the examples we've seen that meant
+that the dollar sign scope inside of our directive was the exact same object as the dollar sign scope of
+our directive's parent controller. While this setup seemed fine, if we look closer we have a bit
+of an architectural problem here. That type of setup makes a directive
+dependent on our particular controller. In other words, there's too much coupling
+going on between the controller and the directive. Let's examine this issue
+in the code editor. Okay, I'm back in the code editor,
+and I'm located in lecture 28, which is located in
+fullstack-course5/examples folder. And this is just a copy of
+the previous application we had, the shopping list directive app. The only thing I changed
+here is the title. And this you remember,
+we have a couple of shopping list here both of them are marked as list
+in the controller as syntax. And both of them have this line
+right here called list item which is our custom directive
+that has an entry repeated in it that's looping over our list
+items in our shopping list. The trouble is, is that we have two lists
+here and when you look at this code in the code editor it's sometimes hard to
+understand which list you're looking for. I guess you could look for
+Shopping List #2 and labels like that. But it would be much nicer if I
+actually labeled our controller syntax as a list1 and list2. Let's go ahead and try to do that. Let's multi-select the lists,
+and we'll say list1 and here there's also a list1 and
+this is a list1 and we'll save that. Let's see, we're not missing anything. And let's go to the second list and
+call it list2. Once again try to multi-select
+as much as we can. And it'll say list2 and we'll say
+list2 over here and list2 over here. So let's save that and
+let's go back to the browser and see if everything is working so far. So let's add cookies as usual,
+three bags of cookies and three bags of cookies are working. And then let's add some chips,
+okay five bags of chips, we'll add that. What actually, let's remove the chips and
+add some drinks instead. Let's click to remove items. Look at that, it's not working anymore. Let's take a look at our
+Chrome Developer Tools, and we see absolutely no errors either. So what is going on here, exactly? Let's go back and
+take a look at our code, real quick. And we no that the list-item right here,
+the directive, actually uses this listItem.html template. And the problem should be pretty clear. We're using this list.removeItem. We're relying on the fact that list is
+available to us on the controller scope. The problem is, our list is no
+longer list, it's actually list1. So list change this to list1 and
+let's go back here and we'll add actually we'll just
+adventure nonsense for now. And let's try to remove that. See that works. Well let's try to add to this list now and
+add that item. Let's try to remove that item. But this item doesn't work. Well why not? List, is there any errors? Yet again, no errors. Why isn't the site I'm working. Well, the reason this site is not
+working it's because we're using list1. list1 again,
+is coming from the first controller but the second controller doesn't
+know anything bout list1. So in order to get the second
+controller to work, we would have to change that to list2 or
+then the first controller would work. Clearly we have a problem here. What we actually want to do is
+re-architecture our custom directive such that it functions independently
+from its environment and have the environment around it
+pass certain values into it just like it would pass
+arguments into a function. And we could do that with
+a concept called isolate scope. Let's go back to the slides and
+learn about this concept first and then in part two of this lecture
+we'll go back to the code editor and code up a different solution
+using the isolate scope concept. As I mentioned,
+without additional configuration, the scope of the parent is
+the scope of our directive. However, as I just showed you in the code, it would be better to break
+away from this inheritance, and create an isolated scope for our directive
+or as it's termed, isolate scope. The way this is accomplished is through
+specifying another property on the DDO called scope and assigning it some object. Without any properties, all we've done was isolate
+the directive scope from the parent. But if it's isolated, how do we get
+the data that we need into our directive? The answer is that we explicitly
+bind pre-defined attributes to the isolate scope properties. Here you see the first type of binding
+we're going to discuss in this lecture. We're specifying a property on
+the scope object called myProp. That's the name of the property
+that you're mapping something outside of your directive into. The value of myProp is
+going to be an equal sign followed by some attribute name. The attribute name is the HTML
+template attribute name. In the HTML template, the object value
+you specify here in your HTML template will be evaluated in the parent scope and
+pass into our directive. In this example, myProp property will be a reference to
+that object inside of our directive scope. There are a few ways to bind and
+pass the outer values into the directive. Bidirectional is probably
+the most communicative way. Bidirectional binding means that
+if you change the parent value the value in the directive will
+change automatically and vice versa if you changed the value in the directive
+the parent value will change as well. If you leave the value as
+simply an equal sign and you don't specify the name
+of the attribute. AngularJS compiler will assume that
+the name of the attribute in the HTML template is the same as your
+directives property name. This case myProp or once denormalized
+probational template it will be my-prop. Also, if you follow the equals
+sign with a question mark, that will signify to the Angular
+compiler that the attribute is optional. Obviously, the code in your directive
+has to be aware that it's possible that the user of your directive will not
+supply a value for the scope property so you cannot rely on that value to be there,
+as it might be undefined. In our HTML template,
+we specify my-prop attribute using the same normalization rules
+we use for the element name. In other words, we'll lowercase
+the name of the attribute, and then separate its parts with a dash. AngularJS will normalize it to match
+it with our my-prop property in the directive. Using the at sign is yet another way to bind external values to
+the isolate scope of our directive. Using the at sign tells the Angular
+compiler that we want to bind myProp property to the domain
+object models attribute myAttribute that's located in
+the same element as our directive. Note, that even in this case our directive
+can itself be either an element or an attribute. The name of the actual attribute
+appearing in html would be denormalized version
+which is my-attribute. The result value that's assigned
+to myProp in our directive scope in this setup is always a string. In HTML template, we simply
+specify my-attribute attribute and give it the value of
+some interpolated string. This type of set up behaves
+as one way binding. Meaning that the outer value
+change affects the inner value but if we explicitly change myProp
+that's bound to my-attribute in side of the directive the value of
+my-attribute dom node will be unaffected. Also note, that there's nothing stopping
+us from doing the regular interpolation inside of the my-attribute. Here, you could see what
+concatenating the string high and also can concatenating an exclamation
+point sign using the plus operator directly inside the double curly braces. Okay, in part two of this lecture,
+we'll go back to the code editor and try out these features.

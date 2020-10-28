@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" ng-app = "ShoppingListDirectiveApp">
+  <head>
+    <meta charset="utf-8">
+    <script src = "angular.min.js"></script>
+    <script src = "app.js"></script>
+    <link rel="stylesheet" href="Style.css">
+
+    <title> Directive with Isolate Scope </title>
+  </head>
+  <body>
+
+    <!-- Shopping List 1 -->
+
+    <div ng-controller = "ShoppingListController1 as list1">
+      <!-- <h3> Shopping List 1 </h3> -->
+
+      <input type="text" ng-model = "list1.ItemName" placeholder="Name">
+      <input type="text" ng-model = "list1.ItemQuantity" placeholder="Quantity">
+      <button type="button" ng-click = "list1.addItem();">Add a new Item</button>
+
+      <Shopping-list my-list = "list1" title = " {{ list1.title }} "  ></Shopping-list>
+
+      <!-- <ol>
+        <li ng-repeat = "item in list1.getItems" >
+          {{ item.quantity }} of {{ item.name }}
+          <button type="button" ng-click = "list1.removeItem($index);">Remove Item</button>
+        </li>
+      </ol> -->
+
+      <div class = "error" ng-if = "list1.erroMessage">
+        Error : {{ list1.errorMessage }}
+      </div>
+
+    </div>
+
+
+
+
+        <!-- Shopping List 2 -->
+
+        <div ng-controller = "ShoppingListController2 as list2">
+          <!-- <h3> Shopping List 2 ( Limited with 3 items)</h3> -->
+
+          <input type="text" ng-model = "list2.ItemName" placeholder="Name">
+          <input type="text" ng-model = "list2.ItemQuantity" placeholder="Quantity">
+          <button type="button" ng-click = "list2.addItem();">Add a new Item</button>
+
+          <Shopping-list my-list = "list2" title = "Shopping List 2 ( Limited to 3 items)" ></Shopping-list>
+
+
+          <!-- <ol>
+            <li ng-repeat = "item in list2.getItems" >
+              {{ item.quantity }} of {{ item.name }}
+              <button type="button" ng-click = "list2.removeItem($index);">Remove Item</button>
+            </li>
+          </ol> -->
+
+          <div class = "error" ng-if = "list2.errorMessage">
+            Error : {{ list2.errorMessage }}
+          </div>
+
+        </div>
+
+
+
+
+  </body>
+</html>

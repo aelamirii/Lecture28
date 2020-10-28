@@ -1,0 +1,121 @@
+[MUSIC] Okay, so I'm back in my code
+editor in Lecture28 folder, which is located in
+fullstack-course5/examples folder. And this is the same app
+we discussed in part one except I've reverted everything back and I removed all custom directives from
+the application so we could start anew. And what seems to me that we
+should do is we should just create a directive called Shopping List,
+and a template for the shopping list directive
+should encompass all this. In other words the actual list. So let's go ahead and start coding that. Let's go to app.js and
+let's create a directive. With a directive method
+called Shopping List. And notice the shopping list
+that s is lower case and the function that we're going to
+create is called shopping list. Let's go ahead and
+create that function now and that functions going to have a ddo
+its just going to be an object and lets just set up the framework here and
+its going to return the ddo. So we don't forget to do that. Okay, inside of our ddo we
+need to first of all point to a template that is going to be
+responsible for this directive. So we'll call a template url and
+we'll give it a path. Let's call it shoppinglist.html. Let's save that for now and
+let's actually create shoppinglist.html. And we'll do is we'll place that
+whole piece that we wanted to replace right here. We'll just actually cut it out of here,
+make a little bit of a space here and we'll go and place it right here. Now it's still referencing these
+labels from the controller and we don't want that. Let's just call it something
+generic like list. And that actually looks pretty good so
+we'll save that. And now, in order for us to isolate our
+directive from the parent controller and at the same time pass this list
+of items into our directive. We need to create the isolate scope with
+a directive local property called list. Let's go ahead and do that. First, we'll go here,
+we put a comma, and we'll say scope, so that's going to be an isolate scope. And our directive
+property will be list and it's going to be bound to something we'll
+call myList, let's go ahead and save that. And now what we need to do is we need
+to go back to our index.html and say shopping-list, right here as a tag,
+and specify my list, again my list would be with a dash,
+because we need to denormalize so then angular will create
+this property out of that. And my-list is going to be equal to,
+in this case, since we are in list1. My list is going to be equal to list1,
+let's go ahead and save that. And now, if we go back to the browser,
+the first list should work. Let's give it cookies, 4 bags, we'll add the list and
+you could see the list is working. Look at that multiple number
+over those and if we could, the removed item The Remove Item
+is working as well because again, the list that is being mentioned in our
+template right here when we click to remove is actually
+the the passed in object list, list1 actually in this case,
+through the property my-List. So we could do exactly the same
+thing by copying this over and going over here in the second controller
+and just copying that over right here. And except now we're going
+to be passing list two. Let's save that.
+We'll go back to browser, and let's go cookies. Two bags of cookies, and as we edit it
+will all work until obviously I've hit the limit, which is three for
+the second list. Okay, so let's change something a little
+bit about how our list is constructed. The title of our list is kind of
+sitting on top of the controls to add things to the list. What I really like to do is actually
+have the title of the list as being part of our list. Seems like they should go together. And, at least for the first list, I would like to have a total number
+items in parentheses in the list so far. Obviously we want the parent controller
+to decide what the title would be, even though the parent controller
+wouldn't know where the title goes. But the actual title words is something
+that the parent controller knows about And it should be in control of that, but the
+directive should be the one displaying it. Sounds like a perfect use case for
+the one-way binding with an at sign. So let's go back to the code editor,
+we'll go to our app.js, and we'll add one more property here. Put a comma here and we'll say title. And the property is going to
+be @ we'll just call it title. So this way the ShoppingList
+directive will require a title attribute that we're going to
+give it from the parent controller. In order for that to happen let's
+go to the controller code and initialize that property. We'll go ahead and
+remember what the origTitle was. A rich title, and
+we'll get that title from our HTML. The original title was
+shopping list number one. Let's go ahead and copy that. Go back to app.js. And, say the original title
+is Shopping List # 1. And, we'll construct, list that title,
+which is our scope property now. We'll call it our orignal title. Plus, we'll give it a space, parentheses. We don't need this parentheses here yet. Plus, list.items.length. That's the number of items in our list. And we'll go ahead and close
+the parentheses right here and say items. The other way around, items, close parens. And obviously we need to do this
+again a couple more places, when we change the number of items
+we edit and also when we remove it. Let's go ahead and save that. And now let's go back to
+our shopping list and right on top of here we'll say h3
+which is the same type of title and we'll say,
+we'll interpolate our title right in here. The title, this title name is coming from,
+let's save that. It's coming from our directive when we
+gave it the title property on our scope. All that's left is to go to index.html and
+specify the title. At least our original title. So let's go ahead and
+remove this h3 out of here. We'll go to our shopping list directive
+and we'll say title equals to and in this case we're going to interpolate
+what we have from the controller, this list1 controller. So list1 controller will be list1.title. We'll save that. Let's verify that that's the name of
+the title in the list one controller and it sure is the title. So list.title is what we
+needed to place in here. And this list.title is marked
+with a label list one. So if we'll go back to
+our application browser, I see here that I forgot to
+put a space after then number. So let's go back to our app.js, and actually put a space between
+the number and the word, items. And I also need to change it in the other
+two places that I mentioned it, right here. So we'll save that. Let's go back to the browser, and
+we'll start adding cookies again. 3 bags of cookies, and we'll add that. And as you could see, if I keep adding,
+the number of item is changing and the entire title is changing
+because of it as well. So if I remove things, it will also get
+updated because the parent controller's scope title property is being updated and
+therefore, our attributes value that is holding this
+actual string gets interpolated again and gets passed in into our directive over and
+over again. So, one more thing we need to do not of
+any errors is to specify the title for the second controller that we have and
+we could go back to the index.html and we'll go ahead and
+copy that second right here. We'll cut it over here,
+we'll take out of here, and we'll actually put it right
+on the shopping-list. We'll say title= and we'll just cut and paste that string right there,
+there's nothing wrong with that. And we'll go back to our browser. And you can see that the string
+is just straight up right there. And we don't have any logic
+in the second controller to update this because this thing
+is limited to three items anyway. So we could again put cookies in here,
+and misspelled cookies, that's very important to
+spell cookies correctly. And so we're going to re-spell that again. And as we keep adding, obviously we'll
+hit our limit of three, and that's it. So we were now able to create a reusable
+directive, our usable component so to speak, that we're able to use
+in two separate controllers. Without the controller's properties
+affecting how we implement our directive. So we able to pass a list of items
+from the controller number two that has list2 label. And from the controller number
+one that has list1 label. Okay, so let's summarize. Having isolate scope in the directive, breaks the prototypal inheritance
+of the scope from the parent. But it also makes the directive more
+independent, therefore less coupled with the controller, or whatever parent
+component the directive is living in. We pass values into the directive
+using the scope bindings. There's a couple that we learned. The first one is the bidirectional binding
+which is signified by the equal sign and in that type of scenario, the directive scope property change
+affects the bound property and vice versa. The other one we learned about was
+the DOM attribute value binding, and that is signified with an @ sign. In this scenario it always results in
+the directive property being a string. The @ property also acts like a unit
+directional binding meaning changes to the DOM attribute value are propagated
+to the directive property. But not the other way around.

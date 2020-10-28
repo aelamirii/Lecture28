@@ -1,0 +1,7 @@
+<h3> {{ title_Direvtive }}</h3>
+<ol>
+  <li ng-repeat = "item in list_Directive.getItems">
+    {{ item.quantity }} of {{ item.name }}
+    <button type="button" ng-click = "list_Directive.RemoveItem($index);">Remove Item</button>
+  </li>
+</ol>
